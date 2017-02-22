@@ -14,11 +14,43 @@ import java.util.List;
  * @author wboyer
  */
 public class AuthorService {
-    public List<Author> getAllAuthors(){
-        return Arrays.asList(
-                new Author(1,"Chris Palmer",new Date()),
-                new Author(2, "Will Boyer", new Date()),
-                new Author(3, "Jim Lombardo", new Date())
+    private AuthorDaoInterface dao;
+
+    public AuthorDaoInterface getDao() {
+        return dao;
+    }
+
+    public void setDao(AuthorDaoInterface dao) {
+        this.dao = dao;
+    }
+
+    public AuthorService(AuthorDaoInterface dao) {
+        this.dao = dao;
+    }
+    
+    public List<Author> getAllAuthors(String tableName, int maxRecords) throws Exception{
+        return dao.getAuthorList(tableName, maxRecords);
+    }
+    public List<Author> getAuthorById(String tableName, int authorId) throws Exception{
+        return dao.getAuthorById(tableName, authorId);
+    }
+    
+    
+    public static void main(String[] args) throws Exception {
+        AuthorService as = new AuthorService(
+                new AuthorDao(
+                    new MySQLDbAccessor(),
+                    "com.mysql.jdbc.Driver",
+                    "jdbc:mysql://localhost:3306/book",
+                    "root",
+                    "admin"
+                )
         );
+        
+        List<Author> authors = as.getAllAuthors("author", 50);
+        
+        for(Author a: authors){
+            System.out.println(a);
+        }
     }
 }

@@ -12,6 +12,8 @@ public class Author {
     private final String NULL_MSG = " cannot be null";
     
     private Integer authorId;
+    private String firstName;
+    private String lastName;
     private String authorName;
     private Date dateAdded;
 
@@ -22,9 +24,11 @@ public class Author {
         this.authorId = authorId;
     }
 
-    public Author(Integer authorId, String authorName, Date dateAdded) {
+    public Author(Integer authorId, String firstName, String lastName, Date dateAdded) {
         this.authorId = authorId;
-        this.authorName = authorName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.authorName = firstName + " " + lastName;
         this.dateAdded = dateAdded;
     }
 
@@ -86,6 +90,22 @@ public class Author {
     @Override
     public String toString() {
         return "Author{" + "authorId=" + authorId + ", authorName=" + authorName + ", dateAdded=" + dateAdded + '}';
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
     
     

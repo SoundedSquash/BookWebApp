@@ -14,8 +14,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Main Menu</title>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
-        <script
+    <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
@@ -25,8 +24,7 @@
         <script type="text/javascript" src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script>
     </head>
     <body>
-        <div class="container">
-        <h1>Authors</h1>
+        <h1>Author View</h1>
         <table id="table" class="display" cellspacing="0">
             <thead>
             <tr>
@@ -38,9 +36,6 @@
                 </th>
                 <th>
                     Date Added
-                </th>
-                <th>
-                    Actions
                 </th>
             </tr>
             </thead>
@@ -56,26 +51,12 @@
                         <td>
                             <fmt:formatDate pattern="MM/dd/yyyy" value="${author.dateAdded}" /> 
                         </td>
-                        <td>
-                            <form method="post" action="authors">
-                                <input type="hidden" name="aid" value="${author.authorId}" />
-                                <input type="submit" name="action" value="View" />
-                                &nbsp;|&nbsp;
-                                <input type="submit" name="action" value="Edit" />
-                                &nbsp;|&nbsp;
-                                <input type="submit" name="action" value="Delete" />
-                            </form>
-                        </td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
-        <form method="post" action="create.jsp">
-            <input type="submit" name="action" value="Add New" />
-        </form>
         <br>
-        <a href="index.jsp">Return to main menu.</a>
-        </div>
+        <a href="authors?action=list">Return to list.</a>
     </body>
     <script type="text/javascript">
     $(document).ready(function() {

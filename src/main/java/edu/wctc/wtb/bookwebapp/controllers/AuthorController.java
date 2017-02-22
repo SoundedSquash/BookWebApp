@@ -6,9 +6,10 @@
 package edu.wctc.wtb.bookwebapp.controllers;
 
 import edu.wctc.wtb.bookwebapp.models.Author;
+import edu.wctc.wtb.bookwebapp.models.AuthorDao;
 import edu.wctc.wtb.bookwebapp.models.AuthorService;
+import edu.wctc.wtb.bookwebapp.models.MySQLDbAccessor;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -40,19 +41,49 @@ public class AuthorController extends HttpServlet {
         String resultPage = "index.jsp";
         String action = request.getParameter("action");
         
-        AuthorService authorService = new AuthorService();
-        try {
-            switch(action){
-                case "list":
-                    resultPage = "authors.jsp";
-                    List<Author> authors = authorService.getAllAuthors();
-                    request.setAttribute("authors", authors);
-                    break;
-                default:
-                    request.setAttribute("errMsg", ERR_NO_PARAMETER);
+        AuthorService authorService = new AuthorService(
+                new AuthorDao(
+                    new MySQLDbAccessor(),
+                    "com.mysql.jdbc.Driver",
+                    "jdbc:mysql://localhost:3306/book",
+                    "root",
+                    "admin"
+                )
+        );
+        
+        if (action!=null) {
+            
+            int authorId;
+            List<Author> authors;
+            try {
+                switch(action){
+                    case "Delete":
+                        break;
+                    case "list":
+                        resultPage = "authors.jsp";
+                        authors = authorService.getAllAuthors("author", 50);
+                        request.setAttribute("authors", authors);
+                        break;
+                    case "View":
+                        resultPage = "view.jsp";
+                        authorId = Integer.parseInt(request.getParameter("aid"));
+                        authors = authorService.getAuthorById("author", authorId);
+                        request.setAttribute("authors", authors);                    
+                        break;
+                    case "Edit":
+                        resultPage = "edit.jsp";
+                        authorId = Integer.parseInt(request.getParameter("aid"));
+                        authors = authorService.getAuthorById("author", authorId);
+                        request.setAttribute("authors", authors); 
+                        break;
+                    default:
+                        request.setAttribute("errMsg", ERR_NO_PARAMETER);
+                }
+            } catch (Exception e) {
+                request.setAttribute("errMsg", e.getMessage());
             }
-        } catch (Exception e) {
-            request.setAttribute("errMsg", e.getMessage());
+        } else {
+            
         }
         
         RequestDispatcher view =
