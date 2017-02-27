@@ -55,9 +55,15 @@ public class AuthorController extends HttpServlet {
             
             int authorId;
             List<Author> authors;
+            String firstName, lastName;
             try {
                 switch(action){
                     case "Delete":
+                        authorId = Integer.parseInt(request.getParameter("aid"));
+                        authorService.deleteAuthor("author", "author_id", authorId);
+                        resultPage = "authors.jsp";
+                        authors = authorService.getAllAuthors("author", 50);
+                        request.setAttribute("authors", authors);
                         break;
                     case "list":
                         resultPage = "authors.jsp";
@@ -75,6 +81,25 @@ public class AuthorController extends HttpServlet {
                         authorId = Integer.parseInt(request.getParameter("aid"));
                         authors = authorService.getAuthorById("author", authorId);
                         request.setAttribute("authors", authors); 
+                        break;
+                        //On Edit Save:
+                    case "Update":
+                        authorId = Integer.parseInt(request.getParameter("aid"));
+                        firstName = request.getParameter("firstName");
+                        lastName = request.getParameter("lastName");
+                        authorService.updateAuthor("author", "author_id", authorId, firstName, lastName);
+                        resultPage = "authors.jsp";
+                        authors = authorService.getAllAuthors("author", 50);
+                        request.setAttribute("authors", authors);
+                        break;
+                        //On New Record Add:
+                    case "Add":
+                        firstName = request.getParameter("firstName");
+                        lastName = request.getParameter("lastName");
+                        authorService.addAuthor("author", firstName, lastName);
+                        resultPage = "authors.jsp";
+                        authors = authorService.getAllAuthors("author", 50);
+                        request.setAttribute("authors", authors);
                         break;
                     default:
                         request.setAttribute("errMsg", ERR_NO_PARAMETER);

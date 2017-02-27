@@ -6,6 +6,7 @@
 package edu.wctc.wtb.bookwebapp.models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,30 @@ public class AuthorDao implements AuthorDaoInterface {
         this.server = server;
         this.user = user;
         this.password = password;
+    }
+    
+    
+    @Override
+    public void addAuthor(String tableName, String firstName, String lastName) throws Exception{
+        db.openConnection(driver, server, user, password);
+        db.insertRecord(tableName, Arrays.asList("first_name","last_name","date_added"), Arrays.asList((Object)firstName,lastName,new Date()));
+        db.closeConnection();
+    }
+    
+    
+    @Override
+    public void updateAuthor(String tableName, String columnNameForId, Object id, String firstName, String lastName) throws Exception{
+        db.openConnection(driver, server, user, password);
+        db.updateRecordById(tableName, columnNameForId, id, Arrays.asList("first_name","last_name","date_added"), Arrays.asList((Object)firstName,lastName));
+        db.closeConnection();
+    }
+    
+    @Override
+    public int deleteRecordById(String tableName, String columnName, Object id) throws Exception{
+        db.openConnection(driver, server, user, password);
+        int affected = db.deleteRecordById(tableName, columnName, id);
+        db.closeConnection();
+        return affected;
     }
     
     @Override

@@ -28,6 +28,18 @@ public class AuthorService {
         this.dao = dao;
     }
     
+    public void addAuthor(String tableName, String firstName, String lastName) throws Exception{
+        dao.addAuthor(tableName, firstName, lastName);
+    }
+    
+    public void updateAuthor(String tableName, String columnNameForId, Object id, String firstName, String lastName) throws Exception{
+        dao.updateAuthor(tableName, columnNameForId, id, firstName, lastName);
+    }
+    
+    public void deleteAuthor(String tableName, String columnName, int id) throws Exception{
+        dao.deleteRecordById(tableName, columnName, id);
+    }
+    
     public List<Author> getAllAuthors(String tableName, int maxRecords) throws Exception{
         return dao.getAuthorList(tableName, maxRecords);
     }

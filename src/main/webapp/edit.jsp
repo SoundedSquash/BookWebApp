@@ -51,10 +51,10 @@
                                 ${author.authorId}
                             </td>
                             <td>
-                                <input type="text" name="authorName" value="${author.authorName}" />                                
+                                <input type="text" name="firstName" value="${author.authorName}" />                                
                             </td>
                             <td>
-                                
+                                <input type="text" name="lastName" value="${author.authorName}" />  
                             </td>
                             <td>
                                 <fmt:formatDate pattern="MM/dd/yyyy" value="${author.dateAdded}" />
@@ -63,7 +63,7 @@
                     </c:forEach>
                 </tbody>
             </table>
-            <input type="submit" name="action" value="Save" />
+            <input type="submit" name="action" value="Update" />
             <input type="button" name="action" value="Cancel" />
         </form>
         <br>

@@ -5,6 +5,7 @@
  */
 package edu.wctc.wtb.bookwebapp.models;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -13,6 +14,12 @@ import java.util.List;
  */
 public interface AuthorDaoInterface {
 
+    public void addAuthor(String tableName, String firstName, String lastName) throws Exception;
+    
+    public void updateAuthor(String tableName, String columnNameForId, Object id, String firstName, String lastName) throws Exception;
+    
+    public int deleteRecordById(String tableName, String columnName, Object id) throws Exception;
+    
     List<Author> getAuthorList(String tableName, int maxRecords) throws Exception;
     
     public List<Author> getAuthorById(String tableName, int authorId) throws Exception;
