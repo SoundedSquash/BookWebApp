@@ -39,7 +39,7 @@ public class AuthorDao implements AuthorDaoInterface {
     @Override
     public void updateAuthor(String tableName, String columnNameForId, Object id, String firstName, String lastName) throws Exception{
         db.openConnection(driver, server, user, password);
-        db.updateRecordById(tableName, columnNameForId, id, Arrays.asList("first_name","last_name","date_added"), Arrays.asList((Object)firstName,lastName));
+        db.updateRecordById(tableName, columnNameForId, id, Arrays.asList("first_name","last_name"), Arrays.asList((Object)firstName,lastName));
         db.closeConnection();
     }
     

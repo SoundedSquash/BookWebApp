@@ -84,6 +84,7 @@ public class AuthorController extends HttpServlet {
                         break;
                         //On Edit Save:
                     case "Update":
+                        System.out.println(request.getParameter("aid"));
                         authorId = Integer.parseInt(request.getParameter("aid"));
                         firstName = request.getParameter("firstName");
                         lastName = request.getParameter("lastName");

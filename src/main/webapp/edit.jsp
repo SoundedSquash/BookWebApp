@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html>
@@ -48,13 +49,16 @@
                     <c:forEach var="author" items="${authors}">
                         <tr>
                             <td>
+                                <c:set var="authorName" value="${fn:split(author.authorName, ' ')}" />
+                                
+                                <input type="hidden" name="aid" value="${author.authorId}" />
                                 ${author.authorId}
                             </td>
                             <td>
-                                <input type="text" name="firstName" value="${author.authorName}" />                                
+                                <input type="text" name="firstName" value="${authorName[0]}" />                                
                             </td>
                             <td>
-                                <input type="text" name="lastName" value="${author.authorName}" />  
+                                <input type="text" name="lastName" value="${authorName[1]}" />  
                             </td>
                             <td>
                                 <fmt:formatDate pattern="MM/dd/yyyy" value="${author.dateAdded}" />
