@@ -33,7 +33,6 @@ public class ConnPoolAuthorDao implements AuthorDaoInterface {
         db.closeConnection();
     }
     
-    
     @Override
     public void updateAuthor(String tableName, String columnNameForId, Object id, String firstName, String lastName) throws Exception{
         db.openConnection(ds);
