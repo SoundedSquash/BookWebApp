@@ -10,27 +10,25 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import javax.sql.DataSource;
 
 /**
  *
  * @author kanst_000
  */
-public class AuthorDao implements AuthorDaoInterface {
+public class ConnPoolAuthorDao implements AuthorDaoInterface {
+    private DataSource ds;
     private DbAccessor db;
-    private String driver, server, user, password;
 
-    public AuthorDao(DbAccessor db, String driver, String server, String user, String password) {
+    public ConnPoolAuthorDao(DataSource ds, DbAccessor db) {
+        this.ds = ds;
         this.db = db;
-        this.driver = driver;
-        this.server = server;
-        this.user = user;
-        this.password = password;
     }
     
     
     @Override
     public void addAuthor(String tableName, String firstName, String lastName) throws Exception{
-        db.openConnection(driver, server, user, password);
+        db.openConnection(ds);
         db.insertRecord(tableName, Arrays.asList("first_name","last_name","date_added"), Arrays.asList((Object)firstName,lastName,new Date()));
         db.closeConnection();
     }
@@ -38,14 +36,14 @@ public class AuthorDao implements AuthorDaoInterface {
     
     @Override
     public void updateAuthor(String tableName, String columnNameForId, Object id, String firstName, String lastName) throws Exception{
-        db.openConnection(driver, server, user, password);
+        db.openConnection(ds);
         db.updateRecordById(tableName, columnNameForId, id, Arrays.asList("first_name","last_name"), Arrays.asList((Object)firstName,lastName));
         db.closeConnection();
     }
     
     @Override
     public int deleteRecordById(String tableName, String columnName, Object id) throws Exception{
-        db.openConnection(driver, server, user, password);
+        db.openConnection(ds);
         int affected = db.deleteRecordById(tableName, columnName, id);
         db.closeConnection();
         return affected;
@@ -54,7 +52,7 @@ public class AuthorDao implements AuthorDaoInterface {
     @Override
     public List<Author> getAuthorList(String tableName, int maxRecords) throws Exception{
         List<Author> authorList;
-        db.openConnection(driver, server, user, password);
+        db.openConnection(ds);
         
         List<Map<String, Object>> rawData = db.findRecordsFromTable(tableName, maxRecords);
         db.closeConnection();
@@ -67,7 +65,7 @@ public class AuthorDao implements AuthorDaoInterface {
     @Override
     public List<Author> getAuthorById(String tableName, int authorId) throws Exception{
         List<Author> authorList;
-        db.openConnection(driver, server, user, password);
+        db.openConnection(ds);
         
         List<Map<String, Object>> rawData = db.findRecordsById(tableName, "author_id", authorId);
         db.closeConnection();
@@ -117,34 +115,6 @@ public class AuthorDao implements AuthorDaoInterface {
     @Override
     public void setDb(DbAccessor db) {
         this.db = db;
-    }
-
-    public String getDriver() {
-        return driver;
-    }
-
-    public void setDriver(String driver) {
-        this.driver = driver;
-    }
-
-    public String getServer() {
-        return server;
-    }
-
-    public void setServer(String server) {
-        this.server = server;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
     
     public static void main(String[] args) throws Exception {

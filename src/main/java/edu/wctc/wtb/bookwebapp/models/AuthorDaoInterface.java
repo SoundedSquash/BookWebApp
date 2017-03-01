@@ -26,20 +26,6 @@ public interface AuthorDaoInterface {
 
     DbAccessor getDb();
 
-    String getDriver();
-
-    String getServer();
-
-    String getUser();
-
     void setDb(DbAccessor db);
-
-    void setDriver(String driver);
-
-    void setPassword(String password);
-
-    void setServer(String server);
-
-    void setUser(String user);
     
 }

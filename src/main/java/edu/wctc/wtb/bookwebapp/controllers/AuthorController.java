@@ -25,7 +25,14 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "AuthorController", urlPatterns = {"/authors"})
 public class AuthorController extends HttpServlet {
     private final static String ERR_NO_PARAMETER = "Request cannot be processed. Please go back and try again.";
-
+    private final static String LIST_PAGE = "authors.jsp";
+    private final static String EDIT_PAGE = "edit.jsp";
+    private final static String VIEW_PAGE = "view.jsp";
+    private final static String TABLE_NAME = "author";
+    
+    private String driverClass, url, userName, password;
+    private String dbStrategyClassName, daoClassName, jndiName;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,10 +51,10 @@ public class AuthorController extends HttpServlet {
         AuthorService authorService = new AuthorService(
                 new AuthorDao(
                     new MySQLDbAccessor(),
-                    "com.mysql.jdbc.Driver",
-                    "jdbc:mysql://localhost:3306/book",
-                    "root",
-                    "admin"
+                    driverClass,
+                    url,
+                    userName,
+                    password
                 )
         );
         
@@ -58,6 +65,7 @@ public class AuthorController extends HttpServlet {
             String firstName, lastName;
             try {
                 switch(action){
+                    //Delete button pressed
                     case "Delete":
                         authorId = Integer.parseInt(request.getParameter("aid"));
                         authorService.deleteAuthor("author", "author_id", authorId);
@@ -65,11 +73,13 @@ public class AuthorController extends HttpServlet {
                         authors = authorService.getAllAuthors("author", 50);
                         request.setAttribute("authors", authors);
                         break;
+                    //Admin link clicked
                     case "list":
                         resultPage = "authors.jsp";
                         authors = authorService.getAllAuthors("author", 50);
                         request.setAttribute("authors", authors);
                         break;
+                    //View button clicked
                     case "View":
                         resultPage = "view.jsp";
                         authorId = Integer.parseInt(request.getParameter("aid"));
@@ -156,4 +166,14 @@ public class AuthorController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    @Override
+    public void init() throws ServletException{
+        driverClass = getServletContext().getInitParameter("driverClass");
+        url = getServletContext().getInitParameter("url");
+        userName = getServletContext().getInitParameter("userName");
+        password = getServletContext().getInitParameter("password");
+        dbStrategyClassName = getServletContext().getInitParameter("dbStrategy");
+        daoClassName = getServletContext().getInitParameter("authorDao");
+        jndiName = getServletContext().getInitParameter("connPoolName");
+    }
 }
