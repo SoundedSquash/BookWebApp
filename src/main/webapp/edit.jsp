@@ -55,10 +55,14 @@
                                 ${author.authorId}
                             </td>
                             <td>
-                                <input type="text" name="firstName" value="${authorName[0]}" />                                
+                                <c:set var="firstName" value="" />
+                                <c:forEach items="${authorName}" begin="0" end="${fn:length(authorName)-2}" var="name">
+                                    <c:set var="firstName" value="${firstName} ${name}"/>
+                                </c:forEach>
+                                <input type="text" name="firstName" value="${firstName}" />                                
                             </td>
                             <td>
-                                <input type="text" name="lastName" value="${authorName[1]}" />  
+                                <input type="text" name="lastName" value="${authorName[fn:length(authorName)-1]}" />  
                             </td>
                             <td>
                                 <fmt:formatDate pattern="MM/dd/yyyy" value="${author.dateAdded}" />

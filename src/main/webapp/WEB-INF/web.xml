@@ -23,11 +23,11 @@
     </context-param>
     <context-param>
         <param-name>authorDao</param-name>
-        <param-value>edu.wctc.web.demo.bookwebapp.model.AuthorDao</param-value>
+        <param-value>edu.wctc.wtb.bookwebapp.models.ConnPoolAuthorDao</param-value>
     </context-param>
     <context-param>
         <param-name>dbStrategy</param-name>
-        <param-value>edu.wctc.web.demo.bookwebapp.model.MySqlDbStrategy</param-value>
+        <param-value>edu.wctc.wtb.bookwebapp.models.MySQLDbAccessor</param-value>
     </context-param>
     
     <servlet>

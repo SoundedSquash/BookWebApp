@@ -37,6 +37,11 @@ public class AuthorController extends HttpServlet {
     private final static String EDIT_PAGE = "edit.jsp";
     private final static String VIEW_PAGE = "view.jsp";
     private final static String TABLE_NAME = "author";
+    private final static String AUTHOR_ID = "aid";
+    private final static String AUTHOR_ID_COLUMN = "author_id";
+    private final static String AUTHORS = "authors";
+    private final static String FIRST_NAME = "firstName";
+    private final static String LAST_NAME = "lastName";
     
     private String driverClass, url, userName, password;
     private String dbStrategyClassName, daoClassName, jndiName;
@@ -67,50 +72,50 @@ public class AuthorController extends HttpServlet {
                 switch(action){
                     //Delete button pressed
                     case "Delete":
-                        authorId = Integer.parseInt(request.getParameter("aid"));
-                        authorService.deleteAuthor("author", "author_id", authorId);
-                        resultPage = "authors.jsp";
-                        authors = authorService.getAllAuthors("author", 50);
-                        request.setAttribute("authors", authors);
+                        authorId = Integer.parseInt(request.getParameter(AUTHOR_ID));
+                        authorService.deleteAuthor(TABLE_NAME, AUTHOR_ID_COLUMN, authorId);
+                        resultPage = LIST_PAGE;
+                        authors = authorService.getAllAuthors(TABLE_NAME, 50);
+                        request.setAttribute(AUTHORS, authors);
                         break;
                     //Admin link clicked
                     case "list":
-                        resultPage = "authors.jsp";
-                        authors = authorService.getAllAuthors("author", 50);
-                        request.setAttribute("authors", authors);
+                        resultPage = LIST_PAGE;
+                        authors = authorService.getAllAuthors(TABLE_NAME, 50);
+                        request.setAttribute(AUTHORS, authors);
                         break;
                     //View button clicked
                     case "View":
-                        resultPage = "view.jsp";
-                        authorId = Integer.parseInt(request.getParameter("aid"));
-                        authors = authorService.getAuthorById("author", authorId);
-                        request.setAttribute("authors", authors);                    
+                        resultPage = VIEW_PAGE;
+                        authorId = Integer.parseInt(request.getParameter(AUTHOR_ID));
+                        authors = authorService.getAuthorById(TABLE_NAME, authorId);
+                        request.setAttribute(AUTHORS, authors);                    
                         break;
                     case "Edit":
-                        resultPage = "edit.jsp";
-                        authorId = Integer.parseInt(request.getParameter("aid"));
-                        authors = authorService.getAuthorById("author", authorId);
-                        request.setAttribute("authors", authors); 
+                        resultPage = EDIT_PAGE;
+                        authorId = Integer.parseInt(request.getParameter(AUTHOR_ID));
+                        authors = authorService.getAuthorById(TABLE_NAME, authorId);
+                        request.setAttribute(AUTHORS, authors); 
                         break;
                         //On Edit Save:
                     case "Update":
-                        System.out.println(request.getParameter("aid"));
-                        authorId = Integer.parseInt(request.getParameter("aid"));
-                        firstName = request.getParameter("firstName");
-                        lastName = request.getParameter("lastName");
-                        authorService.updateAuthor("author", "author_id", authorId, firstName, lastName);
-                        resultPage = "authors.jsp";
-                        authors = authorService.getAllAuthors("author", 50);
-                        request.setAttribute("authors", authors);
+                        System.out.println(request.getParameter(AUTHOR_ID));
+                        authorId = Integer.parseInt(request.getParameter(AUTHOR_ID));
+                        firstName = request.getParameter(FIRST_NAME);
+                        lastName = request.getParameter(LAST_NAME);
+                        authorService.updateAuthor(TABLE_NAME, AUTHOR_ID_COLUMN, authorId, firstName, lastName);
+                        resultPage = LIST_PAGE;
+                        authors = authorService.getAllAuthors(TABLE_NAME, 50);
+                        request.setAttribute(AUTHORS, authors);
                         break;
                         //On New Record Add:
                     case "Add":
-                        firstName = request.getParameter("firstName");
-                        lastName = request.getParameter("lastName");
-                        authorService.addAuthor("author", firstName, lastName);
-                        resultPage = "authors.jsp";
-                        authors = authorService.getAllAuthors("author", 50);
-                        request.setAttribute("authors", authors);
+                        firstName = request.getParameter(FIRST_NAME);
+                        lastName = request.getParameter(LAST_NAME);
+                        authorService.addAuthor(TABLE_NAME, firstName, lastName);
+                        resultPage = LIST_PAGE;
+                        authors = authorService.getAllAuthors(TABLE_NAME, 50);
+                        request.setAttribute(AUTHORS, authors);
                         break;
                     default:
                         request.setAttribute("errMsg", ERR_NO_PARAMETER);
@@ -142,6 +147,7 @@ public class AuthorController extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
+            System.out.println(ex.getMessage());
             Logger.getLogger(AuthorController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -214,8 +220,8 @@ public class AuthorController extends HttpServlet {
              objects based on the servlet init params
              */
             Context ctx = new InitialContext();
-            Context envCtx = (Context) ctx.lookup("java:comp/env");
-            DataSource ds = (DataSource) envCtx.lookup(jndiName);
+            DataSource ds = (DataSource) ctx.lookup(jndiName);
+            //DataSource ds =  envCtx.lookup(jndiName);
             constructor = daoClass.getConstructor(new Class[]{
                 DataSource.class, DbAccessor.class
             });
