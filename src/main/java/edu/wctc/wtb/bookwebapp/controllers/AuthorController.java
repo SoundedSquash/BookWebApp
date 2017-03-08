@@ -24,6 +24,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
@@ -36,6 +37,7 @@ public class AuthorController extends HttpServlet {
     private final static String LIST_PAGE = "authors.jsp";
     private final static String EDIT_PAGE = "edit.jsp";
     private final static String VIEW_PAGE = "view.jsp";
+    private final static String ADD_PAGE = "create.jsp";
     private final static String TABLE_NAME = "author";
     private final static String AUTHOR_ID = "aid";
     private final static String AUTHOR_ID_COLUMN = "author_id";
@@ -108,6 +110,9 @@ public class AuthorController extends HttpServlet {
                         authors = authorService.getAllAuthors(TABLE_NAME, 50);
                         request.setAttribute(AUTHORS, authors);
                         break;
+                    case "Add New":
+                        resultPage = ADD_PAGE;
+                        break;
                         //On New Record Add:
                     case "Add":
                         firstName = request.getParameter(FIRST_NAME);
@@ -126,9 +131,9 @@ public class AuthorController extends HttpServlet {
         } else {
             
         }
-        
+        request.setAttribute("bodyPage", resultPage);
         RequestDispatcher view =
-                request.getRequestDispatcher(resultPage);
+                request.getRequestDispatcher("_Layout.jsp");
         view.forward(request, response);
     }
 
