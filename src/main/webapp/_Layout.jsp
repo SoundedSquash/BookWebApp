@@ -23,7 +23,9 @@
     </head>
     <body>
         <jsp:include page="header.jsp"/>
+        <div class="container body-content" style="padding-top: 50px;">
         <jsp:include page="${bodyPage}"/>
-        <jsp:include page="footer.jsp"/>
+        <jsp:include page="footer.jsp"/>         
+        </div>
     </body>
 </html>

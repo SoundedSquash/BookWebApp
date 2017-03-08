@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<div>
-    <h1>Footer</h1>
-</div>
+<hr />
+        <footer>
+            <p>&copy; 2017 - Author Library</p>
+        </footer>
