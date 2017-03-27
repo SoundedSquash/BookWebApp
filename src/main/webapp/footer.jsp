@@ -7,6 +7,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <hr />
-        <footer>
-            <p>&copy; 2017 - Author Library</p>
-        </footer>
+<footer>
+    <p>&copy; 2017 - Author Library | ${hitCount}</p>
+</footer>
