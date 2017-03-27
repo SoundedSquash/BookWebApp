@@ -24,7 +24,6 @@
             </tr>
             </thead>
             <tbody>
-                <c:forEach var="author" items="${authors}">
                     <tr>
                         <td>
                             ${author.authorId}
@@ -36,7 +35,6 @@
                             <fmt:formatDate pattern="MM/dd/yyyy" value="${author.dateAdded}" /> 
                         </td>
                     </tr>
-                </c:forEach>
             </tbody>
         </table>
         <br>

@@ -30,7 +30,6 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="author" items="${authors}">
                         <tr>
                             <td>
                                 <c:set var="authorName" value="${fn:split(author.authorName, ' ')}" />
@@ -52,7 +51,6 @@
                                 <fmt:formatDate pattern="MM/dd/yyyy" value="${author.dateAdded}" />
                             </td>
                         </tr>
-                    </c:forEach>
                 </tbody>
             </table>
             <input type="submit" name="action" value="Update" />
